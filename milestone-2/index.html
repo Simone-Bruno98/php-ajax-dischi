@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M2</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container" id="myapp">
+        <div v-for="(elemento, index) in arrayAlbum" class="album">
+            <img :src="elemento.poster">
+            <h4>{{elemento.title}}</h4>
+            <span class="artist">{{elemento.author}}</span>
+            <span class="year">{{elemento.year}}</span>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        let myapp = new Vue({
+            el: '#myapp',
+            data:{
+                arrayAlbum:[]
+            },
+            methods:{
+                getCards(){
+                    axios
+                        .get('http://localhost:8888/php-repo/php-ajax-dischi/milestone-2/data.php')
+                        .then((risposta) => {
+                            this.arrayAlbum = risposta.data;
+                            console.log(risposta)
+                        })
+                        .catch(function(error){
+                            console.log(error);
+                        })
+                },
+            },
+            created(){
+                this.getCards();
+            }
+        })
+    </script>
+</body>
+</html>
